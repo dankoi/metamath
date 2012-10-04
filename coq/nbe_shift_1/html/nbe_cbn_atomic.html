@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>nbe_cbn_atomic</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library nbe_cbn_atomic</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab10"></a><h1 class="section">Call-by-NAME TDPE for shift and reset, restriction to an atomic</h1>
+
+formula at reset-time 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="syntax.html#"><span class="id" type="library">syntax</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="model_structure.html#"><span class="id" type="library">model_structure</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="model_validity_generic.html#"><span class="id" type="library">model_validity_generic</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="model_validity_cbn.html#"><span class="id" type="library">model_validity_cbn</span></a>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab11"></a><h2 class="section">Evaluator of typed terms in Kripke models (aka Soundness)</h2>
+
+</div>
+<div class="code">
+<span class="id" type="keyword">Module</span> <a name="Soundness"><span class="id" type="module">Soundness</span></a> (<span class="id" type="var">ks</span> : <a class="idref" href="model_structure.html#"><span class="id" type="module">Kripke_structure</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">ks</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="Soundness.ks_monad"><span class="id" type="module">ks_monad</span></a> := <a class="idref" href="model_structure.html#"><span class="id" type="module">Kripke_structure_monad</span></a> <a class="idref" href="nbe_cbn_atomic.html#"><span class="id" type="module">ks</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">ks_monad</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="Soundness.cbn_validity"><span class="id" type="module">cbn_validity</span></a> := <a class="idref" href="model_validity_cbn.html#"><span class="id" type="module">sforces_cbn</span></a> <a class="idref" href="nbe_cbn_atomic.html#"><span class="id" type="module">ks</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">cbn_validity</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="Soundness.generic_properties"><span class="id" type="module">generic_properties</span></a> := <a class="idref" href="model_validity_generic.html#"><span class="id" type="module">forcing_generic_properties</span></a> <a class="idref" href="nbe_cbn_atomic.html#"><span class="id" type="module">ks</span></a> <a class="idref" href="nbe_cbn_atomic.html#cbn_validity"><span class="id" type="module">cbn_validity</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">generic_properties</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Theorem</span> <a name="Soundness.soundness"><span class="id" type="lemma">soundness</span></a> : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">Gamma</span> <span class="id" type="var">annot</span> <span class="id" type="var">A</span>, <a class="idref" href="syntax.html#proof"><span class="id" type="inductive">proof</span></a> <a class="idref" href="nbe_cbn_atomic.html#Gamma"><span class="id" type="variable">Gamma</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">w</span>, <span class="id" type="keyword">forall</span> <span class="id" type="var">annot'</span>, <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Bool.Bool.html#leb"><span class="id" type="definition">leb</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot'"><span class="id" type="variable">annot'</span></a> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_generic.html#forcing_generic_properties.::x_'||--'_x_';'_x"><span class="id" type="notation">||--</span></a> <a class="idref" href="nbe_cbn_atomic.html#Gamma"><span class="id" type="variable">Gamma</span></a> <a class="idref" href="model_validity_generic.html#forcing_generic_properties.::x_'||--'_x_';'_x"><span class="id" type="notation">;</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot'"><span class="id" type="variable">annot'</span></a> -&gt; <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_generic.html#forcing_generic_properties.::x_'||-'_x_';'_x"><span class="id" type="notation">||-</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a> <a class="idref" href="model_validity_generic.html#forcing_generic_properties.::x_'||-'_x_';'_x"><span class="id" type="notation">;</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot'"><span class="id" type="variable">annot'</span></a>.<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="nbe_cbn_atomic.html#"><span class="id" type="module">Soundness</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab12"></a><h2 class="section">The reifyer from Kripke models to terms in normal form (aka Completeness for the Universal model)</h2>
+
+</div>
+<div class="code">
+<span class="id" type="keyword">Module</span> <a name="Completeness"><span class="id" type="module">Completeness</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The "Universal" Kripke model <span class="inlinecode"><span class="id" type="var">U</span></span> build from syntax 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="Completeness.U"><span class="id" type="module">U</span></a> &lt;: <a class="idref" href="model_structure.html#"><span class="id" type="module">Kripke_structure</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Definition</span> <a name="Completeness.U.K"><span class="id" type="definition">K</span></a> := <a class="idref" href="syntax.html#context"><span class="id" type="definition">context</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Definition</span> <a name="Completeness.U.wle"><span class="id" type="definition">wle</span></a> := <a class="idref" href="syntax.html#prefix"><span class="id" type="inductive">prefix</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Notation</span> <a name="Completeness.U.::x_'<='_x"><span class="id" type="notation">"</span></a>w &lt;= w'" := (<a class="idref" href="nbe_cbn_atomic.html#Completeness.U.wle"><span class="id" type="definition">wle</span></a> <span class="id" type="var">w</span> <span class="id" type="var">w'</span>).<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Definition</span> <a name="Completeness.U.wle_refl"><span class="id" type="definition">wle_refl</span></a> := <a class="idref" href="syntax.html#prefix_refl"><span class="id" type="constructor">prefix_refl</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Definition</span> <a name="Completeness.U.wle_trans"><span class="id" type="definition">wle_trans</span></a> := <a class="idref" href="syntax.html#prefix_trans"><span class="id" type="lemma">prefix_trans</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Definition</span> <a name="Completeness.U.X"><span class="id" type="definition">X</span></a> (<span class="id" type="var">w</span>:<a class="idref" href="syntax.html#context"><span class="id" type="definition">context</span></a>)(<span class="id" type="var">annot</span>:<a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#bool"><span class="id" type="inductive">bool</span></a>)(<span class="id" type="var">A</span>:<a class="idref" href="syntax.html#formula"><span class="id" type="inductive">formula</span></a>) : <span class="id" type="keyword">Set</span> :=  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">match</span> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> =&gt; <a class="idref" href="syntax.html#proof_ne"><span class="id" type="inductive">proof_ne</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="syntax.html#Atom"><span class="id" type="constructor">Atom</span></a> <span class="id" type="var">a</span> =&gt; <a class="idref" href="syntax.html#proof_ne"><span class="id" type="inductive">proof_ne</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> (<a class="idref" href="syntax.html#Atom"><span class="id" type="constructor">Atom</span></a> <span class="id" type="var">a</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="syntax.html#Sum"><span class="id" type="constructor">Sum</span></a> <span class="id" type="var">A1</span> <span class="id" type="var">A2</span> =&gt; <a class="idref" href="syntax.html#proof_nf"><span class="id" type="inductive">proof_nf</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> (<a class="idref" href="syntax.html#Sum"><span class="id" type="constructor">Sum</span></a> <span class="id" type="var">A1</span> <span class="id" type="var">A2</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> <span class="id" type="var">A1</span> <span class="id" type="var">A2</span> =&gt; <a class="idref" href="syntax.html#proof_nf"><span class="id" type="inductive">proof_nf</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> (<a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> <span class="id" type="var">A1</span> <span class="id" type="var">A2</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Lemma</span> <a name="Completeness.U.X_mon"><span class="id" type="lemma">X_mon</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">w</span> <span class="id" type="var">annot</span> <span class="id" type="var">A</span>, <a class="idref" href="nbe_cbn_atomic.html#Completeness.U.X"><span class="id" type="definition">X</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">w'</span>, <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#Completeness.U.::x_'<='_x"><span class="id" type="notation">&lt;=</span></a> <a class="idref" href="nbe_cbn_atomic.html#w'"><span class="id" type="variable">w'</span></a> -&gt; <a class="idref" href="nbe_cbn_atomic.html#Completeness.U.X"><span class="id" type="definition">X</span></a> <a class="idref" href="nbe_cbn_atomic.html#w'"><span class="id" type="variable">w'</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Lemma</span> <a name="Completeness.U.X_mon2"><span class="id" type="lemma">X_mon2</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">w</span> <span class="id" type="var">annot</span> <span class="id" type="var">A</span>, <a class="idref" href="nbe_cbn_atomic.html#Completeness.U.X"><span class="id" type="definition">X</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">annot'</span>, <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Bool.Bool.html#leb"><span class="id" type="definition">leb</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot'"><span class="id" type="variable">annot'</span></a> -&gt; <a class="idref" href="nbe_cbn_atomic.html#Completeness.U.X"><span class="id" type="definition">X</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot'"><span class="id" type="variable">annot'</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Lemma</span> <a name="Completeness.U.X_reset"><span class="id" type="lemma">X_reset</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">w</span>, <a class="idref" href="nbe_cbn_atomic.html#Completeness.U.X"><span class="id" type="definition">X</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#true"><span class="id" type="constructor">true</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> -&gt; <a class="idref" href="nbe_cbn_atomic.html#Completeness.U.X"><span class="id" type="definition">X</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">End</span> <a class="idref" href="nbe_cbn_atomic.html#U"><span class="id" type="module">U</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">U</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="Completeness.ks_monad"><span class="id" type="module">ks_monad</span></a> := <a class="idref" href="model_structure.html#"><span class="id" type="module">Kripke_structure_monad</span></a> <a class="idref" href="nbe_cbn_atomic.html#U"><span class="id" type="module">U</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">ks_monad</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="Completeness.cbn_validity"><span class="id" type="module">cbn_validity</span></a> := <a class="idref" href="model_validity_cbn.html#"><span class="id" type="module">sforces_cbn</span></a> <a class="idref" href="nbe_cbn_atomic.html#U"><span class="id" type="module">U</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">cbn_validity</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="Completeness.generic_properties"><span class="id" type="module">generic_properties</span></a> := <a class="idref" href="model_validity_generic.html#"><span class="id" type="module">forcing_generic_properties</span></a> <a class="idref" href="nbe_cbn_atomic.html#U"><span class="id" type="module">U</span></a> <a class="idref" href="nbe_cbn_atomic.html#cbn_validity"><span class="id" type="module">cbn_validity</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">generic_properties</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Theorem</span> <a name="Completeness.completeness"><span class="id" type="lemma">completeness</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">A</span> <span class="id" type="var">w</span> <span class="id" type="var">annot</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">(</span></a><a class="idref" href="nbe_cbn_atomic.html#Completeness.cbn_validity.ks_monad.Kont"><span class="id" type="definition">Kont</span></a> <a class="idref" href="nbe_cbn_atomic.html#Completeness.cbn_validity.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a> -&gt; <a class="idref" href="syntax.html#proof_nf"><span class="id" type="inductive">proof_nf</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">*</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">(</span></a><a class="idref" href="syntax.html#proof_ne"><span class="id" type="inductive">proof_ne</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a> -&gt; <a class="idref" href="nbe_cbn_atomic.html#Completeness.cbn_validity.ks_monad.Kont"><span class="id" type="definition">Kont</span></a> <a class="idref" href="nbe_cbn_atomic.html#Completeness.cbn_validity.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="nbe_cbn_atomic.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a><a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">)</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab13"></a><h2 class="section">Now we can define NbE as composition of soundness and completeness</h2>
+
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="Completeness.soundness_for_U"><span class="id" type="module">soundness_for_U</span></a> := <a class="idref" href="nbe_cbn_atomic.html#"><span class="id" type="module">Soundness</span></a> <a class="idref" href="nbe_cbn_atomic.html#U"><span class="id" type="module">U</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Definition</span> <a name="Completeness.NbE"><span class="id" type="definition">NbE</span></a> (<span class="id" type="var">annot</span>:<a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#bool"><span class="id" type="inductive">bool</span></a>)(<span class="id" type="var">A</span>:<a class="idref" href="syntax.html#formula"><span class="id" type="inductive">formula</span></a>)(<span class="id" type="var">p</span>:<a class="idref" href="syntax.html#proof"><span class="id" type="inductive">proof</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a>) : <a class="idref" href="syntax.html#proof_nf"><span class="id" type="inductive">proof_nf</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a> <a class="idref" href="nbe_cbn_atomic.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="nbe_cbn_atomic.html#A"><span class="id" type="variable">A</span></a>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">set</span> (<span class="id" type="var">compl</span> := <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#fst"><span class="id" type="definition">fst</span></a> (<a class="idref" href="nbe_cbn_atomic.html#Completeness.completeness"><span class="id" type="lemma">completeness</span></a> <span class="id" type="var">A</span> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a> <span class="id" type="var">annot</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">set</span> (<span class="id" type="var">empty_cxt</span> := <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">assert</span> (<span class="id" type="var">Hnil</span> : <a class="idref" href="nbe_cbn_atomic.html#Completeness.generic_properties.sforces_cxt"><span class="id" type="definition">sforces_cxt</span></a> <span class="id" type="var">empty_cxt</span> <span class="id" type="var">annot</span> <span class="id" type="var">empty_cxt</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">constructor</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">set</span> (<span class="id" type="var">sndns</span> := <a class="idref" href="nbe_cbn_atomic.html#Completeness.soundness_for_U.soundness"><span class="id" type="lemma">soundness_for_U.soundness</span></a> <span class="id" type="var">p</span> (<span class="id" type="var">w</span>:=<a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a>) (<a class="idref" href="syntax.html#leb_refl"><span class="id" type="lemma">leb_refl</span></a> <span class="id" type="var">_</span>) <span class="id" type="var">Hnil</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">exact</span> (<span class="id" type="var">compl</span> <span class="id" type="var">sndns</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="nbe_cbn_atomic.html#"><span class="id" type="module">Completeness</span></a>.<br/>
+
+<br/>
+<span class="id" type="var">Extraction</span> "nbe_cbn" <span class="id" type="var">Completeness.NbE</span>.<br/>
+</div>
+<hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
