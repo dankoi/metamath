@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>model_validity_cbv</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library model_validity_cbv</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab3"></a><h1 class="section">Additional structure for call-by-value models</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="model_structure.html#"><span class="id" type="library">model_structure</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" type="keyword">Module</span> <a name="sforces_cbv"><span class="id" type="module">sforces_cbv</span></a> (<span class="id" type="var">ks</span> : <a class="idref" href="model_structure.html#"><span class="id" type="module">Kripke_structure</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">ks</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Module</span> <a name="sforces_cbv.ks_monad"><span class="id" type="module">ks_monad</span></a> := (<a class="idref" href="model_structure.html#"><span class="id" type="module">Kripke_structure_monad</span></a> <a class="idref" href="model_validity_cbv.html#"><span class="id" type="module">ks</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Export</span> <span class="id" type="var">ks_monad</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<span class="inlinecode"><span class="id" type="var">sforces</span></span> is the strong forcing relation for call-by-value models 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" type="keyword">Fixpoint</span> <a name="sforces_cbv.sforces"><span class="id" type="definition">sforces</span></a> (<span class="id" type="var">w</span>:<a class="idref" href="model_validity_cbv.html#ks.K"><span class="id" type="axiom">K</span></a>)(<span class="id" type="var">annot</span>:<a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#bool"><span class="id" type="inductive">bool</span></a>)(<span class="id" type="var">A</span>:<a class="idref" href="syntax.html#formula"><span class="id" type="inductive">formula</span></a>) {<span class="id" type="keyword">struct</span> <span class="id" type="var">A</span>} : <span class="id" type="keyword">Type</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">match</span> <a class="idref" href="model_validity_cbv.html#A"><span class="id" type="variable">A</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="syntax.html#Atom"><span class="id" type="constructor">Atom</span></a> <span class="id" type="var">a</span> =&gt; <a class="idref" href="model_validity_cbv.html#ks.X"><span class="id" type="axiom">X</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> (<a class="idref" href="syntax.html#Atom"><span class="id" type="constructor">Atom</span></a> <span class="id" type="var">a</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> =&gt; <a class="idref" href="model_validity_cbv.html#ks.X"><span class="id" type="axiom">X</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> <span class="id" type="var">A1</span> <span class="id" type="var">A2</span> =&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">w'</span>, <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_structure.html#Kripke_structure.::x_'<='_x"><span class="id" type="notation">&lt;=</span></a> <a class="idref" href="model_validity_cbv.html#w'"><span class="id" type="variable">w'</span></a> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">annot'</span>, <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Bool.Bool.html#leb"><span class="id" type="definition">leb</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="model_validity_cbv.html#annot'"><span class="id" type="variable">annot'</span></a> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="model_validity_cbv.html#sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w'"><span class="id" type="variable">w'</span></a> <a class="idref" href="model_validity_cbv.html#annot'"><span class="id" type="variable">annot'</span></a> <span class="id" type="var">A1</span> -&gt; <a class="idref" href="model_validity_cbv.html#sforces_cbv.ks_monad.Kont"><span class="id" type="definition">Kont</span></a> <a class="idref" href="model_validity_cbv.html#sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w'"><span class="id" type="variable">w'</span></a> <a class="idref" href="model_validity_cbv.html#annot'"><span class="id" type="variable">annot'</span></a> <span class="id" type="var">A2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="syntax.html#Sum"><span class="id" type="constructor">Sum</span></a> <span class="id" type="var">A1</span> <span class="id" type="var">A2</span> =&gt; <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#sum"><span class="id" type="inductive">sum</span></a> (<a class="idref" href="model_validity_cbv.html#sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <span class="id" type="var">A1</span>) (<a class="idref" href="model_validity_cbv.html#sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <span class="id" type="var">A2</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Monotonicity properties of <span class="inlinecode"><span class="id" type="var">sforces</span></span> 
+</div>
+<div class="code">
+
+<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Lemma</span> <a name="sforces_cbv.sforces_mon"><span class="id" type="lemma">sforces_mon</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">A</span> <span class="id" type="var">w</span> <span class="id" type="var">annot</span>, <a class="idref" href="model_validity_cbv.html#sforces_cbv.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="model_validity_cbv.html#A"><span class="id" type="variable">A</span></a> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">w'</span>, <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_structure.html#Kripke_structure.::x_'<='_x"><span class="id" type="notation">&lt;=</span></a> <a class="idref" href="model_validity_cbv.html#w'"><span class="id" type="variable">w'</span></a> -&gt; <a class="idref" href="model_validity_cbv.html#sforces_cbv.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w'"><span class="id" type="variable">w'</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="model_validity_cbv.html#A"><span class="id" type="variable">A</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Lemma</span> <a name="sforces_cbv.sforces_mon2"><span class="id" type="lemma">sforces_mon2</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">A</span> <span class="id" type="var">w</span>, <a class="idref" href="model_validity_cbv.html#sforces_cbv.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a> <a class="idref" href="model_validity_cbv.html#A"><span class="id" type="variable">A</span></a> -&gt; <a class="idref" href="model_validity_cbv.html#sforces_cbv.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#true"><span class="id" type="constructor">true</span></a> <a class="idref" href="model_validity_cbv.html#A"><span class="id" type="variable">A</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">Lemma</span> <a name="sforces_cbv.Kont_sforces_mon2"><span class="id" type="lemma">Kont_sforces_mon2</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">w</span> <span class="id" type="var">annot</span> <span class="id" type="var">A</span>, <a class="idref" href="model_validity_cbv.html#sforces_cbv.ks_monad.Kont"><span class="id" type="definition">Kont</span></a> <a class="idref" href="model_validity_cbv.html#sforces_cbv.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="model_validity_cbv.html#A"><span class="id" type="variable">A</span></a> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">annot'</span>, <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Bool.Bool.html#leb"><span class="id" type="definition">leb</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="model_validity_cbv.html#annot'"><span class="id" type="variable">annot'</span></a> -&gt;  <a class="idref" href="model_validity_cbv.html#sforces_cbv.ks_monad.Kont"><span class="id" type="definition">Kont</span></a> <a class="idref" href="model_validity_cbv.html#sforces_cbv.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot'"><span class="id" type="variable">annot'</span></a> <a class="idref" href="model_validity_cbv.html#A"><span class="id" type="variable">A</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The "run" of the continuations monad 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" type="keyword">Definition</span> <a name="sforces_cbv.run"><span class="id" type="definition">run</span></a> {<span class="id" type="var">w</span> <span class="id" type="var">annot</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="model_validity_cbv.html#sforces_cbv.ks_monad.Kont"><span class="id" type="definition">Kont</span></a> <a class="idref" href="model_validity_cbv.html#sforces_cbv.sforces"><span class="id" type="definition">sforces</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> -&gt; <a class="idref" href="model_validity_cbv.html#ks.X"><span class="id" type="axiom">X</span></a> <a class="idref" href="model_validity_cbv.html#w"><span class="id" type="variable">w</span></a> <a class="idref" href="model_validity_cbv.html#annot"><span class="id" type="variable">annot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a>.<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="model_validity_cbv.html#"><span class="id" type="module">sforces_cbv</span></a>.<br/>
+</div>
+<hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
