@@ -168,8 +168,8 @@ Module Completeness.
     Proof.
       simpl.
       intros w H.
-    apply ne_Reset.
-    apply H.
+      apply ne_Reset.
+      apply H.
     Defined.
   End U.
 

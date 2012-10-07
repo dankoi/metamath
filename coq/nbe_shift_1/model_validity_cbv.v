@@ -77,6 +77,7 @@ Module sforces_cbv (ks : Kripke_structure).
     destruct H1; auto.
   Defined.
 
+  (** This lemma can be proved, but it is not used for CBV *)
   Lemma Kont_sforces_mon2 : forall w annot A, Kont sforces w annot A -> 
         forall annot', leb annot annot' ->  Kont sforces w annot' A.
   Proof.
