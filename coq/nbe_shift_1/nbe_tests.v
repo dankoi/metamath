@@ -6,7 +6,7 @@ Require Import nbe_cbn_atomic.
 Set Implicit Arguments.
 Unset Strict Implicit.
 
-Parameter a:atoms.
+Parameter a b:atoms.
 
 Definition nbe_v := nbe_cbv_atomic.Completeness.NbE.
 Definition nbe_n := nbe_cbn_atomic.Completeness.NbE.
@@ -231,3 +231,50 @@ Defined.
 
 Eval compute in (forget_proof test_DNS).
 Eval vm_compute in (NbE test_DNS).
+
+(** Implicational version of DNS (sums instead of functions) *)
+Definition test_DNS_sums : proof nil false 
+                            (Func (Func (Sum (Atom a) (Func (Atom a) Bot)) Bot) Bot).
+Proof.
+  apply Lam.
+  apply Reset.
+  apply App with (Sum (Atom a) (Func (Atom a) Bot)).
+  apply Hyp.
+  apply Shift.
+  apply App with (Sum (Atom a) (Func (Atom a) Bot)).
+  apply Hyp.
+  apply Inr.
+  apply Lam.
+  apply App with (Sum (Atom a) (Func (Atom a) Bot)).
+  apply Wkn.
+  apply Hyp.
+  apply Inl.
+  apply Hyp.
+Defined.
+
+Eval compute in (forget_proof test_DNS_sums).
+Eval vm_compute in (NbE test_DNS_sums).
+
+(** Implicational version of DNS (sums instead of functions) + simulating quantifier *)
+Definition test_DNS_sums_quant : proof nil false 
+                            (Func (Func (Func (Atom b) (Sum (Atom a) (Func (Atom a) Bot))) Bot) Bot).
+Proof.
+  apply Lam.
+  apply Reset.
+  apply App with (Func (Atom b) (Sum (Atom a) (Func (Atom a) Bot))).
+  apply Hyp.
+  apply Lam.
+  apply Shift.
+  apply App with (Sum (Atom a) (Func (Atom a) Bot)).
+  apply Hyp.
+  apply Inr.
+  apply Lam.
+  apply App with (Sum (Atom a) (Func (Atom a) Bot)).
+  apply Wkn.
+  apply Hyp.
+  apply Inl.
+  apply Hyp.
+Defined.
+
+Eval compute in (forget_proof test_DNS_sums_quant).
+Eval vm_compute in (NbE test_DNS_sums_quant).
