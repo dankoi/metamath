@@ -17,39 +17,22 @@ Definition NbE {A} : proof nil false A -> bare * bare := fun p => (forget_proof 
 
 (** Some tests of the normalization algorithm *)
 
-Definition id8 : proof nil false  (Func Bot (Func Bot Bot)).
+(* Definition id8 : proof nil false  (Func Bot (Func Bot Bot)). *)
+(* Proof. *)
+(*   apply Lam. *)
+(*   apply Lam. *)
+(*   apply Reset. *)
+(*   apply Shift. *)
+(*   apply Wkn. *)
+(*   apply Hyp. *)
+(* Defined. *)
+
+(* Eval compute in (forget_proof id8). *)
+(* Eval compute in (NbE id8). *)
+
+Definition test_16 : proof nil false (Func Bot Bot).
 Proof.
   apply Lam.
-  apply Lam.
-  apply Reset.
-  apply Shift.
-  apply Wkn.
-  apply Hyp.
-Defined.
-
-Eval compute in (forget_proof id8).
-Eval compute in (NbE id8).
-
-Definition id9 : proof nil false (Func Bot Bot).
-Proof.
-  apply Lam.
-  apply Reset.
-  apply App with Bot.
-  apply Lam.
-  apply Hyp.
-  apply Shift.
-  apply Wkn.
-  apply Hyp.
-Defined.
-
-Eval compute in (forget_proof id9).
-Eval compute in (NbE id9).
-
-Definition id10 : proof nil false (Func Bot Bot).
-Proof.
-  apply Lam.
-  apply Reset.
-  apply Reset.
   apply Reset.
   apply App with Bot.
   apply Lam.
@@ -59,52 +42,45 @@ Proof.
   apply Hyp.
 Defined.
 
-Eval compute in (forget_proof id10).
-Eval compute in (NbE id10).
+Eval compute in (forget_proof test_16).
+Eval compute in (NbE test_16).
 
-Definition id11 : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
+Definition test_17 : proof nil false (Func Bot Bot).
 Proof.
   apply Lam.
-  apply Lam.
+  apply Reset.
   apply Reset.
   apply Reset.
   apply App with Bot.
-  apply Wkn.
-  apply Hyp.
-  apply Hyp.
-Defined.
-
-Eval compute in (forget_proof id11).
-Eval compute in (NbE id11).
-
-Definition id13 : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
-Proof.
   apply Lam.
-  apply Lam.
-  apply Reset.
-  apply App with Bot.
-  apply Wkn.
   apply Hyp.
   apply Shift.
-  apply App with Bot.
-  apply Hyp.
-  apply App with Bot.
-  apply Hyp.
   apply Wkn.
   apply Hyp.
 Defined.
 
-Eval compute in (forget_proof id13).
-Eval compute in (NbE id13).
+Eval compute in (forget_proof test_17).
+Eval compute in (NbE test_17).
 
-Definition id14 : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
+Definition test_18 : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
 Proof.
   apply Lam.
   apply Lam.
   apply Reset.
+  apply Reset.
   apply App with Bot.
   apply Wkn.
   apply Hyp.
+  apply Hyp.
+Defined.
+
+Eval compute in (forget_proof test_18).
+Eval compute in (NbE test_18).
+
+Definition test_19 : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
+Proof.
+  apply Lam.
+  apply Lam.
   apply Reset.
   apply App with Bot.
   apply Wkn.
@@ -118,10 +94,34 @@ Proof.
   apply Hyp.
 Defined.
 
-Eval compute in (forget_proof id14).
-Eval compute in (NbE id14).
+Eval compute in (forget_proof test_19).
+Eval compute in (NbE test_19).
 
-Definition id16 : proof nil false (Func (Func Bot Bot) (Func (Func Bot (Func Bot Bot)) (Func Bot Bot))).
+Definition test_20 : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
+Proof.
+  apply Lam.
+  apply Lam.
+  apply Reset.
+  apply App with Bot.
+  apply Wkn.
+  apply Hyp.
+  apply Reset.
+  apply App with Bot.
+  apply Wkn.
+  apply Hyp.
+  apply Shift.
+  apply App with Bot.
+  apply Hyp.
+  apply App with Bot.
+  apply Hyp.
+  apply Wkn.
+  apply Hyp.
+Defined.
+
+Eval compute in (forget_proof test_20).
+Eval compute in (NbE test_20).
+
+Definition test_21 : proof nil false (Func (Func Bot Bot) (Func (Func Bot (Func Bot Bot)) (Func Bot Bot))).
 Proof.
   apply Lam.
   apply Lam.
@@ -152,10 +152,10 @@ Proof.
   apply Hyp.
 Defined.
 
-Eval compute in (forget_proof id16).
-Eval compute in (NbE id16).
+Eval compute in (forget_proof test_21).
+Eval compute in (NbE test_21).
 
-Definition id19 : proof nil false 
+Definition test_22 : proof nil false 
   (Func (Func Bot Bot)
        (Func (Func Bot Bot)
             (Func (Func Bot Bot) (Func Bot Bot)))).
@@ -183,10 +183,10 @@ Proof.
   apply Hyp.
 Defined.
 
-Eval compute in (forget_proof id19).
-Eval compute in (NbE id19).
+Eval compute in (forget_proof test_22).
+Eval compute in (NbE test_22).
 
-Definition id21 : proof nil false (Func (Sum Bot Bot) (Func Bot Bot)).
+Definition test_23 : proof nil false (Func (Sum Bot Bot) (Func Bot Bot)).
 Proof.
   apply Lam.
   apply Lam.
@@ -202,11 +202,12 @@ Proof.
   apply Hyp.
 Defined.
 
-Eval compute in (forget_proof id21).
-Eval vm_compute in (NbE id21).
+Eval compute in (forget_proof test_23).
+Eval vm_compute in (NbE test_23).
+
 
 (** Implicational version of DNS *)
-Definition test_DNS : proof nil false 
+Definition test_24 : proof nil false 
   (Func
     (Func (Atom a) (Func (Func (Atom a) Bot) Bot))
     (Func (Func (Func (Atom a) (Atom a)) Bot) Bot)).
@@ -229,8 +230,8 @@ Proof.
   apply Hyp.
 Defined.
 
-Eval compute in (forget_proof test_DNS).
-Eval vm_compute in (NbE test_DNS).
+Eval compute in (forget_proof test_24).
+Eval vm_compute in (NbE test_24).
 
 (** Implicational version of DNS (sums instead of functions) *)
 Definition test_DNS_sums : proof nil false 

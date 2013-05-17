@@ -157,7 +157,7 @@ module type Kripke_structure =
   
   val coq_X_mon2 : coq_K -> bool -> formula -> coq_X -> bool -> coq_X
   
-  val coq_X_reset : coq_K -> coq_X -> coq_X
+  val coq_X_reset : coq_K -> bool -> coq_X -> coq_X
  end
 
 module Kripke_structure_monad = 
@@ -369,8 +369,8 @@ module Coq_sforces_cbv =
          Obj.magic (fun w'' w'w'' k ->
            Coq_ks.coq_X_mon2 w'' False Bot
              (Obj.magic h Bot w'' w'w'' (fun w2 w''w2 hA ->
-               Coq_ks.coq_X_reset w2 (k w2 w''w2 (sforces_mon2 a w2 hA))))
-             True)
+               Coq_ks.coq_X_reset w2 False
+                 (k w2 w''w2 (sforces_mon2 a w2 hA)))) True)
        | False -> h)
   
   (** val run :
@@ -519,12 +519,14 @@ module Soundness =
       Coq_generic_properties.ret w annot' Bot
         (match annot' with
          | True ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma True Bot p0 w0 annot'0 wG0) w True __ wG w
-             (Coq_ks.wle_refl w) (fun w2 h h0 -> h0)
+           Obj.magic
+             (Coq_ks.coq_X_reset w True
+               (Obj.magic (fun w0 annot'0 _ wG0 ->
+                 soundness gamma True Bot p0 w0 annot'0 wG0) w True __ wG w
+                 (Coq_ks.wle_refl w) (fun w2 h h0 -> h0)))
          | False ->
            Obj.magic
-             (Coq_ks.coq_X_reset w
+             (Coq_ks.coq_X_reset w False
                (Obj.magic (fun w0 annot'0 _ wG0 ->
                  soundness gamma True Bot p0 w0 annot'0 wG0) w True __
                  (Coq_generic_properties.sforces_cxt_mon2 gamma w False wG
@@ -584,10 +586,10 @@ module Completeness =
       | Bot -> Obj.magic (proof_ne_mon2 Bot w annot (Obj.magic h) annot')
       | x -> Obj.magic (proof_nf_mon2 x w annot (Obj.magic h) annot')
     
-    (** val coq_X_reset : context -> proof_ne -> proof_ne **)
+    (** val coq_X_reset : context -> bool -> proof_ne -> proof_ne **)
     
-    let coq_X_reset w h =
-      Ne_Reset (w, False, h)
+    let coq_X_reset w annot h =
+      Ne_Reset (w, annot, h)
    end
   
   module Coq_ks_monad = Kripke_structure_monad(U)

@@ -213,6 +213,7 @@ Module Soundness (ks : Kripke_structure).
     simpl.
     unfold Kont in IHp.
     destruct annot'.
+      apply X_reset.
       apply (IHp w true).
       reflexivity.
       assumption.
@@ -293,10 +294,10 @@ Module Completeness.
       eauto using proof_nf_mon2,proof_ne_mon2.
     Defined.
     
-    Lemma X_reset : forall w, X w true Bot -> X w false Bot.
+    Lemma X_reset : forall w annot, X w true Bot -> X w annot Bot.
     Proof.
       simpl.
-      intros w H.
+      intros w annot H.
     apply ne_Reset.
     apply H.
     Defined.

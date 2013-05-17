@@ -89,6 +89,7 @@ Module Soundness (ks : Kripke_structure).
     apply ret.
     simpl.
     destruct annot'.
+    apply X_reset.
     apply run.
     apply IHp.
     reflexivity.
@@ -164,10 +165,10 @@ Module Completeness.
       eauto using proof_nf_mon2,proof_ne_mon2.
     Defined.
     
-    Lemma X_reset : forall w, X w true Bot -> X w false Bot.
+    Lemma X_reset : forall w annot, X w true Bot -> X w annot Bot.
     Proof.
       simpl.
-      intros w H.
+      intros w annot H.
       apply ne_Reset.
       apply H.
     Defined.

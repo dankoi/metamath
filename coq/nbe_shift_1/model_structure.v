@@ -30,7 +30,7 @@ Module Type Kripke_structure.
                               forall w', wle w w' -> X w' annot A.
     Axiom X_mon2 : forall w annot A, X w annot A -> 
                                forall annot', leb annot annot' -> X w annot' A.
-    Axiom X_reset : forall w, X w true Bot -> X w false Bot.
+    Axiom X_reset : forall w annot, X w true Bot -> X w annot Bot.
 
     Notation "w <= w'" := (wle w w').
 End Kripke_structure.

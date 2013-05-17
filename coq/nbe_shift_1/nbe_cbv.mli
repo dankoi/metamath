@@ -93,7 +93,7 @@ module type Kripke_structure =
   
   val coq_X_mon2 : coq_K -> bool -> formula -> coq_X -> bool -> coq_X
   
-  val coq_X_reset : coq_K -> coq_X -> coq_X
+  val coq_X_reset : coq_K -> bool -> coq_X -> coq_X
  end
 
 module Kripke_structure_monad : 
@@ -308,7 +308,7 @@ module Completeness :
     
     val coq_X_mon2 : context -> bool -> formula -> coq_X -> bool -> coq_X
     
-    val coq_X_reset : context -> proof_ne -> proof_ne
+    val coq_X_reset : context -> bool -> proof_ne -> proof_ne
    end
   
   module Coq_ks_monad : 
