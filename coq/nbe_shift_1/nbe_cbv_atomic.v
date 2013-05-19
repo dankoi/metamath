@@ -27,61 +27,29 @@ Module Soundness (ks : Kripke_structure).
     intros Gamma annot A p.
     induction p.
 
-    intros w annot' Hleb wG.
-    destruct annot'.
-      intros w1 ww1 k.
-      unfold Kont in IHp.
-      apply (IHp w true).
-      assumption.
-      assumption.
-      assumption.
-      intros.
-      apply k.
-      assumption.
-      simpl.
-      left;assumption.
-      intros C w1 ww1 k.
-      unfold Kont in IHp.
-      apply (IHp w false).
-      assumption.
-      assumption.
-      assumption.
-      intros.
-      apply k.
-      assumption.
-      simpl.
-      left;assumption.
-
-    intros w annot' Hleb wG.
-    destruct annot'.
-      intros w1 ww1 k.
-      unfold Kont in IHp.
-      apply (IHp w true).
-      assumption.
-      assumption.
-      assumption.
-      intros.
-      apply k.
-      assumption.
-      simpl.
-      right;assumption.
-      intros C w1 ww1 k.
-      unfold Kont in IHp.
-      apply (IHp w false).
-      assumption.
-      assumption.
-      assumption.
-      intros.
-      apply k.
-      assumption.
-      simpl.
-      right;assumption.
-
-    intros w annot' Hleb wG.
+    intros w annot' leb' H'.
+    apply (bind (A:=A)).
+    intros.
     apply ret.
-    simpl.
-    intros w1 ww1 annot'' Hleb'' HA.
-    simpl in IHp.
+    left.
+    assumption.
+    apply IHp.
+    assumption.
+    assumption.
+
+    intros w annot' leb' H'.
+    apply (bind (A:=B)).
+    intros.
+    apply ret.
+    right.
+    assumption.
+    apply IHp.
+    assumption.
+    assumption.
+
+    intros w annot' leb' H'.
+    apply ret.
+    intros w1 wle1 annot1 leb1 H1.
     apply IHp.
     eauto using leb_trans.
     split;
@@ -96,161 +64,66 @@ Module Soundness (ks : Kripke_structure).
     apply IHp.
     assumption.
     assumption.
-    
-    clear p1 p2 p3.
-    intros w annot' Hleb' wGamma.
-    destruct annot'.
-      intros w1 ww1 k.
-      unfold Kont in IHp1.
-      apply (IHp1 w true); clear IHp1.
-      assumption.
-      assumption.
-      assumption.
-      intros w2 w1w2 HSum.
-      simpl in HSum.
-      case HSum.
-      intro HA.
-      unfold Kont in IHp2.
-      apply (IHp2 w2 true).
-      assumption.
-      simpl.
-      split.
-      assumption.
-      eauto using wle_trans,sforces_cxt_mon.
-      apply wle_refl.
-      intros; eauto using wle_trans.
-      intro HB.
-      unfold Kont in IHp3.
-      apply (IHp3 w2 true).
-      assumption.
-      simpl.
-      split.
-      assumption.
-      eauto using wle_trans,sforces_cxt_mon.
-      apply wle_refl.
-      intros; eauto using wle_trans.
-      intros D w1 ww1 k.
-      unfold Kont in IHp1.
-      apply (IHp1 w false); clear IHp1.
-      assumption.
-      assumption.
-      assumption.
-      intros w2 w1w2 HSum.
-      simpl in HSum.
-      case HSum.
-      intro HA.
-      unfold Kont in IHp2.
-      apply (IHp2 w2 false).
-      assumption.
-      simpl.
-      split.
-      assumption.
-      eauto using wle_trans,sforces_cxt_mon.
-      apply wle_refl.
-      intros; eauto using wle_trans.
-      intro HB.
-      unfold Kont in IHp3.
-      apply (IHp3 w2 false).
-      assumption.
-      simpl.
-      split.
-      assumption.
-      eauto using wle_trans,sforces_cxt_mon.
-      apply wle_refl.
-      intros; eauto using wle_trans.
 
-    intros w annot' Hleb' wGamma.
-    destruct annot'.
-      intros w1 ww1 k.
-      unfold Kont in IHp1.
-      apply (IHp1 w1 true).
-      assumption.
-      eauto using sforces_cxt_mon.
-      apply wle_refl.
-      simpl sforces.
-      intros w2 w1w2 HAB.
-      unfold Kont in IHp2.
-      apply (IHp2 w true).
-      assumption.
-      assumption.
-      eauto using wle_trans.
-      intros w3 w2w3 HA.
-      unfold Kont in HAB.
-      apply (HAB w3 w2w3 true).
-      reflexivity.
-      assumption.
-      apply wle_refl.
-      intros w4 w3w4 HB'.
-      apply k.
-      eauto using wle_trans.
-      assumption.
-      intros C w1 ww1 k.
-      unfold Kont in IHp1.
-      apply (IHp1 w1 false).
-      assumption.
-      eauto using sforces_cxt_mon.
-      apply wle_refl.
-      simpl sforces.
-      intros w2 w1w2 HAB.
-      unfold Kont in IHp2.
-      apply (IHp2 w false).
-      assumption.
-      assumption.
-      eauto using wle_trans.
-      intros w3 w2w3 HA.
-      unfold Kont in HAB.
-      apply (HAB w3 w2w3 false).
-      constructor.
-      assumption.
-      apply wle_refl.
-      intros w4 w3w4 HB'.
-      apply k.
-      eauto using wle_trans.
-      assumption.
+    intros w annot' leb' H'.
+    apply (bind (A:=(Sum A B))).
+    intros w1 wle1 H1.
+    destruct H1.
+    apply IHp2.
+    assumption.
+    split.
+    assumption.
+    eauto using sforces_cxt_mon.
+    apply IHp3.
+    assumption.
+    split.
+    assumption.
+    eauto using sforces_cxt_mon.
+    apply IHp1; assumption.
+
+    intros w annot' leb' H'.
+    apply (bind (A:=(Func A B))).
+    intros w1 wle1 H1.
+    apply (bind (A:=A)).
+    intros w2 wle2 H2.
+    apply H1.
+    assumption.
+    apply leb_refl.
+    apply H2.
+    apply IHp2.
+    assumption.
+    eauto using sforces_cxt_mon.
+    apply IHp1.
+    assumption.
+    assumption.
 
     intros w annot' Hleb' wGamma.
     apply ret.
     simpl.
-    unfold Kont in IHp.
-    destruct annot'.
-      apply X_reset.
-      apply (IHp w true).
-      reflexivity.
-      assumption.
-      apply wle_refl.
-      simpl.
-      auto.
-      apply X_reset.
-      apply (IHp w true).
-      reflexivity.
-      apply sforces_cxt_mon2 with false.
-      assumption.
-      reflexivity.
-      apply wle_refl.
-      simpl;auto.
+    apply X_reset.
+    apply run.
+    apply IHp.
+    apply leb_refl.
+    apply sforces_cxt_mon2 with annot'.
+    assumption.
+    destruct annot'; reflexivity.
 
     intros w annot' Hleb' wGamma.
     inversion Hleb' as [Heq].
     rewrite Heq in *.
     intros w1 ww1 KK.
-    (* apply run. *)
+    apply run.
     apply (IHp w1 true).
     reflexivity.
     split.
     simpl.
     intros w2 w1w2 annot'' Heq'' HA.
     rewrite Heq'' in *.
-    intros w3 w2w3 KK'.
-    apply KK'.
-    apply wle_refl.
-    simpl.
+    apply ret.
     apply KK.
     eauto using wle_trans.
     eauto using sforces_mon.
     eauto using sforces_cxt_mon.
-    apply wle_refl.
-    simpl.
-    auto.
   Defined.
 End Soundness.
 
@@ -652,15 +525,18 @@ Module Completeness.
   (** ** Now we can define NbE as composition of soundness and completeness *)
   Module soundness_for_U := Soundness U.
 
+  Lemma Hnil : forall annot, sforces_cxt nil annot nil.
+  Proof.
+    simpl.
+    intro annot.
+    constructor.
+  Defined.
+
   Definition NbE (annot:bool)(A:formula)(p:proof nil annot A) : proof_nf nil annot A.
   Proof.
     (* begin show *)
     set (compl := fst (completeness A nil annot)).
-    set (empty_cxt := nil).
-    assert (Hnil : sforces_cxt empty_cxt annot empty_cxt).
-    simpl.
-    constructor.
-    set (sndns := soundness_for_U.soundness p (w:=nil) (leb_refl _) Hnil).
+    set (sndns := soundness_for_U.soundness p (w:=nil) (leb_refl _) (Hnil annot)).
     exact (compl sndns).
   (* end show *)
   Defined.

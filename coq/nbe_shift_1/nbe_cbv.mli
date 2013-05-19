@@ -474,6 +474,8 @@ module Completeness :
       Coq_cbv_validity.Coq_ks_monad.coq_Kont
    end
   
+  val coq_Hnil : bool -> unit0
+  
   val coq_NbE : bool -> formula -> proof -> proof_nf
  end
 

@@ -97,6 +97,35 @@ Defined.
 Eval compute in (forget_proof test_19).
 Eval compute in (NbE test_19).
 
+(* Eval compute in (forget_nf (nbe_v test_19)). *)
+(* Eval compute in (forget_nf (nbe_v (forget_nf (nbe_v test_19)))). *)
+
+(* Eval compute in (nbe_cbv_atomic.Completeness.soundness_for_U.soundness (forget_nf (nbe_v test_19)) (w:=nil) (leb_refl _) (nbe_cbv_atomic.Completeness.Hnil false)). *)
+
+(* Definition sndns19_1 := nbe_cbv_atomic.Completeness.soundness_for_U.soundness test_19 (w:=nil) (leb_refl _) (nbe_cbv_atomic.Completeness.Hnil false). *)
+
+(* Definition sndns19_2 := nbe_cbv_atomic.Completeness.soundness_for_U.soundness (forget_nf (nbe_v test_19)) (w:=nil) (leb_refl _) (nbe_cbv_atomic.Completeness.Hnil false). *)
+
+(* Eval compute in sndns19_1. *)
+(* Eval compute in sndns19_2. *)
+
+(* Lemma equal19s : sndns19_1 = sndns19_2. *)
+(* Proof. *)
+(*   compute. *)
+(*   (* reflexivity. *) *)
+(* Abort. *)
+
+(* Definition sndns19_3 := nbe_cbv_atomic.Completeness.soundness_for_U.soundness (forget_nf (nbe_v (forget_nf (nbe_v test_19)))) (w:=nil) (leb_refl _) (nbe_cbv_atomic.Completeness.Hnil false). *)
+
+(* Lemma equal19s : sndns19_2 = sndns19_3. *)
+(* Proof. *)
+(*   compute. *)
+(*   reflexivity. *)
+(* Qed. *)
+
+(* Recursive Extraction sndns19_1. *)
+(* Recursive Extraction sndns19_2. *)
+
 Definition test_20 : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
 Proof.
   apply Lam.

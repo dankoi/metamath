@@ -396,151 +396,71 @@ module Soundness =
       Coq_generic_properties.sforces_cxt -> Coq_cbv_validity.sforces
       Coq_cbv_validity.Coq_ks_monad.coq_Kont **)
   
-  let rec soundness c b f p w annot' wG =
+  let rec soundness c b f p w annot' h' =
     match p with
     | Inl0 (gamma, annot, a, b0, p0) ->
-      (match annot' with
-       | True ->
-         Obj.magic (fun w1 ww1 k ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma annot a p0 w0 annot'0 wG0) w True __ wG w1 ww1
-             (fun w2 h x0 -> k w2 h (Inl x0)))
-       | False ->
-         Obj.magic (fun c0 w1 ww1 k ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma annot a p0 w0 annot'0 wG0) w False __ wG c0 w1
-             ww1 (fun w2 h x0 -> k w2 h (Inl x0))))
+      Coq_generic_properties.bind w annot' a (Sum (a, b0)) (fun w' h x0 ->
+        Coq_generic_properties.ret w' annot' (Sum (a, b0))
+          (Obj.magic (Inl x0))) (soundness gamma annot a p0 w annot' h')
     | Inr0 (gamma, annot, a, b0, p0) ->
-      (match annot' with
-       | True ->
-         Obj.magic (fun w1 ww1 k ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma annot b0 p0 w0 annot'0 wG0) w True __ wG w1 ww1
-             (fun w2 h x0 -> k w2 h (Inr x0)))
-       | False ->
-         Obj.magic (fun c0 w1 ww1 k ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma annot b0 p0 w0 annot'0 wG0) w False __ wG c0 w1
-             ww1 (fun w2 h x0 -> k w2 h (Inr x0))))
+      Coq_generic_properties.bind w annot' b0 (Sum (a, b0)) (fun w' h x0 ->
+        Coq_generic_properties.ret w' annot' (Sum (a, b0))
+          (Obj.magic (Inr x0))) (soundness gamma annot b0 p0 w annot' h')
     | Lam (gamma, annot, a, b0, p0) ->
       Coq_generic_properties.ret w annot' (Func (a, b0))
-        (Obj.magic (fun w1 ww1 annot'' _ hA ->
-          Obj.magic (fun w0 annot'0 _ wG0 ->
-            soundness (Cons (a, gamma)) annot b0 p0 w0 annot'0 wG0) w1
-            annot'' __ (Pair (hA,
-            (Coq_generic_properties.sforces_cxt_mon gamma w annot''
-              (Coq_generic_properties.sforces_cxt_mon2 gamma w annot' wG
-                annot'') w1 ww1)))))
+        (Obj.magic (fun w1 wle1 annot1 _ h1 ->
+          Obj.magic (fun w0 annot'0 _ h'0 ->
+            soundness (Cons (a, gamma)) annot b0 p0 w0 annot'0 h'0) w1 annot1
+            __ (Pair (h1,
+            (Coq_generic_properties.sforces_cxt_mon gamma w annot1
+              (Coq_generic_properties.sforces_cxt_mon2 gamma w annot' h'
+                annot1) w1 wle1)))))
     | Hyp (gamma, annot, a) ->
-      let Pair (ha, hGamma) = Obj.magic wG in
+      let Pair (ha, hGamma) = Obj.magic h' in
       Coq_generic_properties.ret w annot' a ha
     | Wkn (gamma, annot, a, b0, p0) ->
-      let Pair (wB, wG0) = Obj.magic wG in
-      soundness gamma annot a p0 w annot' wG0
+      let Pair (wB, wG) = Obj.magic h' in
+      soundness gamma annot a p0 w annot' wG
     | Case (gamma, annot, a, b0, c0, p0, p1, p2) ->
-      (match annot' with
-       | True ->
-         Obj.magic (fun w1 ww1 k ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma annot (Sum (a, b0)) p0 w0 annot'0 wG0) w True __
-             wG w1 ww1 (fun w2 w1w2 hSum ->
-             match hSum with
-             | Inl hA ->
-               Obj.magic (fun w0 annot'0 _ wG0 ->
-                 soundness (Cons (a, gamma)) annot c0 p1 w0 annot'0 wG0) w2
-                 True __ (Pair (hA,
-                 (Coq_generic_properties.sforces_cxt_mon gamma w True wG w2
-                   (Coq_ks.wle_trans w w1 w2 ww1 w1w2)))) w2
-                 (Coq_ks.wle_refl w2) (fun w0 h x0 ->
-                 k w0 (Coq_ks.wle_trans w1 w2 w0 w1w2 h) x0)
-             | Inr hB ->
-               Obj.magic (fun w0 annot'0 _ wG0 ->
-                 soundness (Cons (b0, gamma)) annot c0 p2 w0 annot'0 wG0) w2
-                 True __ (Pair (hB,
-                 (Coq_generic_properties.sforces_cxt_mon gamma w True wG w2
-                   (Coq_ks.wle_trans w w1 w2 ww1 w1w2)))) w2
-                 (Coq_ks.wle_refl w2) (fun w0 h x0 ->
-                 k w0 (Coq_ks.wle_trans w1 w2 w0 w1w2 h) x0)))
-       | False ->
-         Obj.magic (fun d w1 ww1 k ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma annot (Sum (a, b0)) p0 w0 annot'0 wG0) w False
-             __ wG d w1 ww1 (fun w2 w1w2 hSum ->
-             match hSum with
-             | Inl hA ->
-               Obj.magic (fun w0 annot'0 _ wG0 ->
-                 soundness (Cons (a, gamma)) annot c0 p1 w0 annot'0 wG0) w2
-                 False __ (Pair (hA,
-                 (Coq_generic_properties.sforces_cxt_mon gamma w False wG w2
-                   (Coq_ks.wle_trans w w1 w2 ww1 w1w2)))) d w2
-                 (Coq_ks.wle_refl w2) (fun w0 h x0 ->
-                 k w0 (Coq_ks.wle_trans w1 w2 w0 w1w2 h) x0)
-             | Inr hB ->
-               Obj.magic (fun w0 annot'0 _ wG0 ->
-                 soundness (Cons (b0, gamma)) annot c0 p2 w0 annot'0 wG0) w2
-                 False __ (Pair (hB,
-                 (Coq_generic_properties.sforces_cxt_mon gamma w False wG w2
-                   (Coq_ks.wle_trans w w1 w2 ww1 w1w2)))) d w2
-                 (Coq_ks.wle_refl w2) (fun w0 h x0 ->
-                 k w0 (Coq_ks.wle_trans w1 w2 w0 w1w2 h) x0))))
+      Coq_generic_properties.bind w annot' (Sum (a, b0)) c0
+        (fun w1 wle1 h1 ->
+        match Obj.magic h1 with
+        | Inl s ->
+          Obj.magic (fun w0 annot'0 _ h'0 ->
+            soundness (Cons (a, gamma)) annot c0 p1 w0 annot'0 h'0) w1 annot'
+            __ (Pair (s,
+            (Coq_generic_properties.sforces_cxt_mon gamma w annot' h' w1
+              wle1)))
+        | Inr s ->
+          Obj.magic (fun w0 annot'0 _ h'0 ->
+            soundness (Cons (b0, gamma)) annot c0 p2 w0 annot'0 h'0) w1
+            annot' __ (Pair (s,
+            (Coq_generic_properties.sforces_cxt_mon gamma w annot' h' w1
+              wle1)))) (soundness gamma annot (Sum (a, b0)) p0 w annot' h')
     | App (gamma, annot, a, b0, p0, p1) ->
-      (match annot' with
-       | True ->
-         Obj.magic (fun w1 ww1 k ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma annot (Func (a, b0)) p0 w0 annot'0 wG0) w1 True
-             __
-             (Coq_generic_properties.sforces_cxt_mon gamma w True wG w1 ww1)
-             w1 (Coq_ks.wle_refl w1) (fun w2 w1w2 hAB ->
-             Obj.magic (fun w0 annot'0 _ wG0 ->
-               soundness gamma annot a p1 w0 annot'0 wG0) w True __ wG w2
-               (Coq_ks.wle_trans w w1 w2 ww1 w1w2) (fun w3 w2w3 hA ->
-               hAB w3 w2w3 True __ hA w3 (Coq_ks.wle_refl w3)
-                 (fun w4 w3w4 hB' ->
-                 k w4
-                   (Coq_ks.wle_trans w1 w2 w4 w1w2
-                     (Coq_ks.wle_trans w2 w3 w4 w2w3 w3w4)) hB'))))
-       | False ->
-         Obj.magic (fun c0 w1 ww1 k ->
-           Obj.magic (fun w0 annot'0 _ wG0 ->
-             soundness gamma annot (Func (a, b0)) p0 w0 annot'0 wG0) w1 False
-             __
-             (Coq_generic_properties.sforces_cxt_mon gamma w False wG w1 ww1)
-             c0 w1 (Coq_ks.wle_refl w1) (fun w2 w1w2 hAB ->
-             Obj.magic (fun w0 annot'0 _ wG0 ->
-               soundness gamma annot a p1 w0 annot'0 wG0) w False __ wG c0 w2
-               (Coq_ks.wle_trans w w1 w2 ww1 w1w2) (fun w3 w2w3 hA ->
-               hAB w3 w2w3 False __ hA c0 w3 (Coq_ks.wle_refl w3)
-                 (fun w4 w3w4 hB' ->
-                 k w4
-                   (Coq_ks.wle_trans w1 w2 w4 w1w2
-                     (Coq_ks.wle_trans w2 w3 w4 w2w3 w3w4)) hB')))))
+      Coq_generic_properties.bind w annot' (Func (a, b0)) b0
+        (fun w1 wle1 h1 ->
+        Coq_generic_properties.bind w1 annot' a b0 (fun w2 wle2 h2 ->
+          Obj.magic h1 w2 wle2 annot' __ h2)
+          (soundness gamma annot a p1 w1 annot'
+            (Coq_generic_properties.sforces_cxt_mon gamma w annot' h' w1
+              wle1))) (soundness gamma annot (Func (a, b0)) p0 w annot' h')
     | Reset (gamma, annot, p0) ->
       Coq_generic_properties.ret w annot' Bot
-        (match annot' with
-         | True ->
-           Obj.magic
-             (Coq_ks.coq_X_reset w True
-               (Obj.magic (fun w0 annot'0 _ wG0 ->
-                 soundness gamma True Bot p0 w0 annot'0 wG0) w True __ wG w
-                 (Coq_ks.wle_refl w) (fun w2 h h0 -> h0)))
-         | False ->
-           Obj.magic
-             (Coq_ks.coq_X_reset w False
-               (Obj.magic (fun w0 annot'0 _ wG0 ->
-                 soundness gamma True Bot p0 w0 annot'0 wG0) w True __
-                 (Coq_generic_properties.sforces_cxt_mon2 gamma w False wG
-                   True) w (Coq_ks.wle_refl w) (fun w2 h h0 -> h0))))
+        (Obj.magic
+          (Coq_ks.coq_X_reset w annot'
+            (Coq_cbv_validity.run w True
+              (soundness gamma True Bot p0 w True
+                (Coq_generic_properties.sforces_cxt_mon2 gamma w annot' h'
+                  True)))))
     | Shift (gamma, a, p0) ->
       let x0 = fun w1 ww1 kK ->
-        Obj.magic (fun w0 annot'0 _ wG0 ->
-          soundness (Cons ((Func (a, Bot)), gamma)) True Bot p0 w0 annot'0
-            wG0) w1 True __ (Pair ((fun w2 w1w2 annot'' _ hA w3 w2w3 kK' ->
-          kK' w3 (Coq_ks.wle_refl w3)
-            (kK w3 (Coq_ks.wle_trans w1 w2 w3 w1w2 w2w3)
-              (Coq_cbv_validity.sforces_mon a w2 True hA w3 w2w3))),
-          (Coq_generic_properties.sforces_cxt_mon gamma w True wG w1 ww1)))
-          w1 (Coq_ks.wle_refl w1) (fun w2 h h0 -> h0)
+        Coq_cbv_validity.run w1 True
+          (Obj.magic (fun w0 annot'0 _ h'0 ->
+            soundness (Cons ((Func (a, Bot)), gamma)) True Bot p0 w0 annot'0
+              h'0) w1 True __ (Pair ((fun w2 w1w2 annot'' _ hA ->
+            Coq_generic_properties.ret w2 True Bot (kK w2 w1w2 hA)),
+            (Coq_generic_properties.sforces_cxt_mon gamma w True h' w1 ww1))))
       in
       (fun w1 -> Obj.magic x0 w1)
  end
@@ -815,13 +735,18 @@ module Completeness =
   
   module Coq_soundness_for_U = Soundness(U)
   
+  (** val coq_Hnil : bool -> unit0 **)
+  
+  let coq_Hnil annot =
+    Tt
+  
   (** val coq_NbE : bool -> formula -> proof -> proof_nf **)
   
   let coq_NbE annot a p =
     let compl = fst (completeness a Nil annot) in
-    let hnil = Tt in
     let sndns =
-      Coq_soundness_for_U.soundness Nil annot a p Nil annot (Obj.magic hnil)
+      Coq_soundness_for_U.soundness Nil annot a p Nil annot
+        (Obj.magic (coq_Hnil annot))
     in
     compl sndns
  end
