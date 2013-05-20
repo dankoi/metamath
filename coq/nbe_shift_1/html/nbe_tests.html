@@ -35,9 +35,6 @@
 <span class="id" type="keyword">Definition</span> <a name="nbe_n"><span class="id" type="definition">nbe_n</span></a> := <a class="idref" href="nbe_cbn_atomic.html#Completeness.NbE"><span class="id" type="definition">nbe_cbn_atomic.Completeness.NbE</span></a>.<br/>
 
 <br/>
-<span class="id" type="keyword">Check</span> <a class="idref" href="nbe_tests.html#nbe_v"><span class="id" type="definition">nbe_v</span></a>.<br/>
-
-<br/>
 <span class="id" type="keyword">Definition</span> <a name="NbE"><span class="id" type="definition">NbE</span></a> {<span class="id" type="var">A</span>} : <a class="idref" href="syntax.html#proof"><span class="id" type="inductive">proof</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a> <a class="idref" href="nbe_tests.html#A"><span class="id" type="variable">A</span></a> -&gt; <a class="idref" href="syntax.html#bare"><span class="id" type="inductive">bare</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">*</span></a> <a class="idref" href="syntax.html#bare"><span class="id" type="inductive">bare</span></a> := <span class="id" type="keyword">fun</span> <span class="id" type="var">p</span> =&gt; <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:core_scope:'('_x_','_x_','_'..'_','_x_')'"><span class="id" type="notation">(</span></a><a class="idref" href="syntax.html#forget_proof"><span class="id" type="lemma">forget_proof</span></a> (<a class="idref" href="syntax.html#forget_nf"><span class="id" type="lemma">forget_nf</span></a> (<a class="idref" href="nbe_tests.html#nbe_v"><span class="id" type="definition">nbe_v</span></a> <a class="idref" href="nbe_tests.html#p"><span class="id" type="variable">p</span></a>)) <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:core_scope:'('_x_','_x_','_'..'_','_x_')'"><span class="id" type="notation">,</span></a> <a class="idref" href="syntax.html#forget_proof"><span class="id" type="lemma">forget_proof</span></a> (<a class="idref" href="syntax.html#forget_nf"><span class="id" type="lemma">forget_nf</span></a> (<a class="idref" href="nbe_tests.html#nbe_n"><span class="id" type="definition">nbe_n</span></a> <a class="idref" href="nbe_tests.html#p"><span class="id" type="variable">p</span></a>))<a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#:core_scope:'('_x_','_x_','_'..'_','_x_')'"><span class="id" type="notation">)</span></a>.<br/>
 
 <br/>
@@ -47,10 +44,6 @@
 Some tests of the normalization algorithm 
 </div>
 <div class="code">
-
-<br/>
-
-<br/>
 
 <br/>
 <span class="id" type="keyword">Definition</span> <a name="test_16"><span class="id" type="definition">test_16</span></a> : <a class="idref" href="syntax.html#proof"><span class="id" type="inductive">proof</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a> (<a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a>).<br/>
@@ -81,22 +74,11 @@ Some tests of the normalization algorithm
 <span class="id" type="keyword">Eval</span> <span class="id" type="tactic">compute</span> <span class="id" type="keyword">in</span> (<a class="idref" href="nbe_tests.html#NbE"><span class="id" type="definition">NbE</span></a> <a class="idref" href="nbe_tests.html#test_19"><span class="id" type="definition">test_19</span></a>).<br/>
 
 <br/>
+<span class="id" type="keyword">Definition</span> <a name="test_19'"><span class="id" type="definition">test_19'</span></a> : <a class="idref" href="syntax.html#proof"><span class="id" type="inductive">proof</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a> (<a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> (<a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a>) (<a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a>)).<br/>
 
 <br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
-
-<br/>
+<span class="id" type="keyword">Eval</span> <span class="id" type="tactic">compute</span> <span class="id" type="keyword">in</span> (<a class="idref" href="syntax.html#forget_proof"><span class="id" type="lemma">forget_proof</span></a> <a class="idref" href="nbe_tests.html#test_19'"><span class="id" type="definition">test_19'</span></a>).<br/>
+<span class="id" type="keyword">Eval</span> <span class="id" type="tactic">compute</span> <span class="id" type="keyword">in</span> (<a class="idref" href="nbe_tests.html#NbE"><span class="id" type="definition">NbE</span></a> <a class="idref" href="nbe_tests.html#test_19'"><span class="id" type="definition">test_19'</span></a>).<br/>
 
 <br/>
 <span class="id" type="keyword">Definition</span> <a name="test_20"><span class="id" type="definition">test_20</span></a> : <a class="idref" href="syntax.html#proof"><span class="id" type="inductive">proof</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a> <a class="idref" href="http://coq.inria.fr/distrib/8.4beta2/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a> (<a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> (<a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a>) (<a class="idref" href="syntax.html#Func"><span class="id" type="constructor">Func</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a> <a class="idref" href="syntax.html#Bot"><span class="id" type="constructor">Bot</span></a>)).<br/>

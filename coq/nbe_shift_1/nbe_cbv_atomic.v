@@ -100,13 +100,18 @@ Module Soundness (ks : Kripke_structure).
     intros w annot' Hleb' wGamma.
     apply ret.
     simpl.
+    destruct annot'.
+    apply run.
+    apply IHp.
+    apply leb_refl.
+    assumption.
     apply X_reset.
     apply run.
     apply IHp.
     apply leb_refl.
-    apply sforces_cxt_mon2 with annot'.
+    apply sforces_cxt_mon2 with false.
     assumption.
-    destruct annot'; reflexivity.
+    reflexivity.
 
     intros w annot' Hleb' wGamma.
     inversion Hleb' as [Heq].

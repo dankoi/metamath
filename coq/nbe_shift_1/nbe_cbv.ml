@@ -447,12 +447,18 @@ module Soundness =
               wle1))) (soundness gamma annot (Func (a, b0)) p0 w annot' h')
     | Reset (gamma, annot, p0) ->
       Coq_generic_properties.ret w annot' Bot
-        (Obj.magic
-          (Coq_ks.coq_X_reset w annot'
-            (Coq_cbv_validity.run w True
-              (soundness gamma True Bot p0 w True
-                (Coq_generic_properties.sforces_cxt_mon2 gamma w annot' h'
-                  True)))))
+        (match annot' with
+         | True ->
+           Obj.magic
+             (Coq_cbv_validity.run w True
+               (soundness gamma True Bot p0 w True h'))
+         | False ->
+           Obj.magic
+             (Coq_ks.coq_X_reset w False
+               (Coq_cbv_validity.run w True
+                 (soundness gamma True Bot p0 w True
+                   (Coq_generic_properties.sforces_cxt_mon2 gamma w False h'
+                     True)))))
     | Shift (gamma, a, p0) ->
       let x0 = fun w1 ww1 kK ->
         Coq_cbv_validity.run w1 True
