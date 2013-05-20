@@ -17,19 +17,6 @@ Definition NbE {A} : proof nil false A -> bare * bare := fun p => (forget_proof 
 
 (** Some tests of the normalization algorithm *)
 
-(* Definition id8 : proof nil false  (Func Bot (Func Bot Bot)). *)
-(* Proof. *)
-(*   apply Lam. *)
-(*   apply Lam. *)
-(*   apply Reset. *)
-(*   apply Shift. *)
-(*   apply Wkn. *)
-(*   apply Hyp. *)
-(* Defined. *)
-
-(* Eval compute in (forget_proof id8). *)
-(* Eval compute in (NbE id8). *)
-
 Definition test_16 : proof nil false (Func Bot Bot).
 Proof.
   apply Lam.
@@ -97,6 +84,25 @@ Defined.
 Eval compute in (forget_proof test_19).
 Eval compute in (NbE test_19).
 
+Definition test_19' : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
+Proof.
+  apply Lam.
+  apply Lam.
+  apply Reset.
+  apply Reset.
+  apply App with Bot.
+  apply Wkn.
+  apply Hyp.
+  apply Reset.
+  apply App with Bot.
+  apply Wkn.
+  apply Hyp.
+  apply Hyp.
+Defined.
+
+Eval compute in (forget_proof test_19').
+Eval compute in (NbE test_19').
+
 (* Eval compute in (forget_nf (nbe_v test_19)). *)
 (* Eval compute in (forget_nf (nbe_v (forget_nf (nbe_v test_19)))). *)
 
@@ -125,6 +131,17 @@ Eval compute in (NbE test_19).
 
 (* Recursive Extraction sndns19_1. *)
 (* Recursive Extraction sndns19_2. *)
+
+Definition sndns19_1 := nbe_cbv_atomic.Completeness.soundness_for_U.soundness test_19 (w:=nil) (leb_refl _) (nbe_cbv_atomic.Completeness.Hnil false).
+
+Definition sndns19_3 := nbe_cbv_atomic.Completeness.soundness_for_U.soundness test_19' (w:=nil) (leb_refl _) (nbe_cbv_atomic.Completeness.Hnil false).
+
+Lemma equal19s_1_3 : sndns19_1 = sndns19_3.
+Proof.
+  compute.
+  reflexivity.
+Qed.
+
 
 Definition test_20 : proof nil false (Func (Func Bot Bot) (Func Bot Bot)).
 Proof.
