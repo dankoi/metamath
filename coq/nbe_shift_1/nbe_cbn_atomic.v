@@ -89,7 +89,6 @@ Module Soundness (ks : Kripke_structure).
     apply ret.
     simpl.
     destruct annot'.
-    apply X_reset.
     apply run.
     apply IHp.
     reflexivity.

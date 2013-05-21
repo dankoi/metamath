@@ -412,9 +412,9 @@ module Soundness =
           Obj.magic (fun w0 annot'0 _ h'0 ->
             soundness (Cons (a, gamma)) annot b0 p0 w0 annot'0 h'0) w1 annot1
             __ (Pair (h1,
-            (Coq_generic_properties.sforces_cxt_mon gamma w annot1
-              (Coq_generic_properties.sforces_cxt_mon2 gamma w annot' h'
-                annot1) w1 wle1)))))
+            (Coq_generic_properties.sforces_cxt_mon2 gamma w1 annot'
+              (Coq_generic_properties.sforces_cxt_mon gamma w annot' h' w1
+                wle1) annot1)))))
     | Hyp (gamma, annot, a) ->
       let Pair (ha, hGamma) = Obj.magic h' in
       Coq_generic_properties.ret w annot' a ha
@@ -497,20 +497,23 @@ module Completeness =
     
     let coq_X_mon w annot a h w' ww' =
       match a with
-      | Atom a0 ->
-        Obj.magic (proof_ne_mon w w' ww' (Atom a0) annot (Obj.magic h))
-      | Bot -> Obj.magic (proof_ne_mon w w' ww' Bot annot (Obj.magic h))
-      | x -> Obj.magic (proof_nf_mon w w' ww' x annot (Obj.magic h))
+      | Func (a1, a2) ->
+        Obj.magic (proof_nf_mon w w' ww' (Func (a1, a2)) annot (Obj.magic h))
+      | Sum (a1, a2) ->
+        Obj.magic (proof_nf_mon w w' ww' (Sum (a1, a2)) annot (Obj.magic h))
+      | x -> Obj.magic (proof_ne_mon w w' ww' x annot (Obj.magic h))
     
     (** val coq_X_mon2 :
         context -> bool -> formula -> coq_X -> bool -> coq_X **)
     
     let coq_X_mon2 w annot a h annot' =
       match a with
-      | Atom a0 ->
-        Obj.magic (proof_ne_mon2 (Atom a0) w annot (Obj.magic h) annot')
-      | Bot -> Obj.magic (proof_ne_mon2 Bot w annot (Obj.magic h) annot')
-      | x -> Obj.magic (proof_nf_mon2 x w annot (Obj.magic h) annot')
+      | Func (a1, a2) ->
+        Obj.magic
+          (proof_nf_mon2 (Func (a1, a2)) w annot (Obj.magic h) annot')
+      | Sum (a1, a2) ->
+        Obj.magic (proof_nf_mon2 (Sum (a1, a2)) w annot (Obj.magic h) annot')
+      | x -> Obj.magic (proof_ne_mon2 x w annot (Obj.magic h) annot')
     
     (** val coq_X_reset : context -> bool -> proof_ne -> proof_ne **)
     
