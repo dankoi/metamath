@@ -475,11 +475,10 @@ module Soundness =
             soundness (Cons ((Func (a, Bot)), gamma)) True Bot p0 w0 annot'0
               h'0) w1 True __ (Pair
             ((Coq_generic_properties.ret w1 True (Func (a, Bot))
-               (Obj.magic (fun w2 wle2 annot2 _ ->
-                 Coq_generic_properties.bind w2 annot2 a Bot
-                   (fun w3 wle3 h3 ->
-                   Coq_generic_properties.ret w3 True Bot
-                     (k1 w3 (Coq_ks.wle_trans w1 w2 w3 wle2 wle3) h3))))),
+               (Obj.magic (fun w2 wle2 annot2 _ hA ->
+                 Coq_generic_properties.ret w2 annot2 Bot
+                   (hA w2 (Coq_ks.wle_refl w2) (fun w3 wle3 h3 ->
+                     k1 w3 (Coq_ks.wle_trans w1 w2 w3 wle2 wle3) h3))))),
             (Coq_generic_properties.coq_Kont_cxt_mon gamma w True h' w1 leb1))))
       in
       (fun w1 -> Obj.magic x0 w1)

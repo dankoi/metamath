@@ -111,15 +111,25 @@ Module Soundness (ks : Kripke_structure).
     split.
     apply ret.
     intros w2 wle2 annot2 leb2.
-    apply bind.
+    (* apply bind. *)
+    (* inversion leb2 as [Heq2]. *)
+    (* rewrite Heq2 in *. *)
+    (* intros w3 wle3 H3. *)
+    (* apply ret. *)
+    (* simpl. *)
+    (* apply k1. *)
+    (* eauto using wle_trans. *)
+    (* assumption. *)
+    intro HA.
+    apply ret.
     inversion leb2 as [Heq2].
     rewrite Heq2 in *.
+    apply HA.
+    apply wle_refl.
     intros w3 wle3 H3.
-    apply ret.
-    simpl.
     apply k1.
     eauto using wle_trans.
-    assumption.
+    apply H3.
     eauto using Kont_cxt_mon.
   Defined.
 End Soundness.
