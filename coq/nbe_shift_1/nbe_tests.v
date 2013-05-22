@@ -283,3 +283,51 @@ Defined.
 
 Eval compute in (forget_proof test_DNS_sums_quant).
 Eval vm_compute in (NbE test_DNS_sums_quant).
+
+Definition test_30 : proof nil false (Func Bot (Func (Func Bot Bot) Bot)).
+Proof.
+  apply Lam.
+  apply Lam.
+  apply Reset.
+  apply App with Bot.
+  apply Shift.
+  eapply App.
+  apply Hyp.
+  apply Wkn.
+  apply Hyp.
+  apply Wkn.
+  apply Hyp.
+Defined.
+
+Eval compute in (forget_proof test_30).
+Eval compute in (NbE test_30).
+
+Definition test_31 : proof nil false (Func Bot (Func (Func Bot Bot) Bot)).
+Proof.
+  apply Lam.
+  apply Lam.
+  apply Reset.
+  eapply App.
+  apply Hyp.
+  apply Wkn.
+  apply Hyp.
+Defined.
+
+Eval compute in (forget_proof test_31).
+Eval compute in (NbE test_31).
+
+Definition test_32 : proof nil false (Func Bot (Func (Func Bot Bot) Bot)).
+Proof.
+  apply Lam.
+  apply Lam.
+  apply Reset.
+  apply Reset.
+  eapply App.
+  apply Hyp.
+  apply Wkn.
+  apply Hyp.
+Defined.
+
+Eval compute in (forget_proof test_32).
+Eval compute in (NbE test_32).
+

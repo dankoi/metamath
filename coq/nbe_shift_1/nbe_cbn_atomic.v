@@ -221,7 +221,8 @@ Module Completeness.
     unfold Kont in H.
     apply (H (Atom a)).
     apply wle_refl.
-    auto.
+    intros.
+    assumption.
     (* REFLECT *)
     intro e.
     apply ret.
@@ -240,14 +241,16 @@ Module Completeness.
     apply nf_ne.
     apply c.
     apply wle_refl.
-    auto.
+    intros.
+    assumption.
     (* intuitionistic case *)
     unfold Kont in c.
     simpl in c.
     apply nf_ne.
     apply (c Bot).
     apply wle_refl.
-    auto.
+    intros.
+    assumption.
     (* REFLECT *)
     intros e.
     apply ret.
