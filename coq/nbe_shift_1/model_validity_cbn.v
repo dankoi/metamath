@@ -49,63 +49,6 @@ Module sforces_cbn (ks : Kripke_structure).
     eauto using wle_trans,Kont_mon.
   Defined.
 
-  (* Lemma sforces_mon2 : (forall A w, sforces w false A -> sforces w true A) *)
-  (* with Kont_sforces_mon2 : (forall w annot A, Kont sforces w annot A ->  *)
-  (*       forall annot', leb annot annot' ->  Kont sforces w annot' A). *)
-  (* Proof. *)
-  (*   induction A. *)
-    
-  (*   simpl. *)
-  (*   intros. *)
-  (*   apply X_mon2 with false. *)
-  (*   assumption. *)
-  (*   reflexivity. *)
-    
-  (*   simpl. *)
-  (*   intros. *)
-  (*   apply X_mon2 with false. *)
-  (*   assumption. *)
-  (*   reflexivity. *)
-    
-  (*   intros w H. *)
-  (*   simpl in *. *)
-  (*   intros w' ww' annot' Hannot'. *)
-  (*   apply H. *)
-  (*   assumption. *)
-  (*   constructor. *)
-    
-  (*   intros w H1. *)
-  (*   destruct H1. *)
-  (*   left. *)
-  (*   apply Kont_sforces_mon2 with false. *)
-  (*   assumption. *)
-  (*   reflexivity. *)
-  (*   right. *)
-  (*   apply Kont_sforces_mon2 with false. *)
-  (*   assumption. *)
-  (*   reflexivity. *)
-    
-  (*   intros w annot A H annot' Hleb. *)
-  (*   destruct annot;destruct annot'. *)
-  (*   assumption. *)
-  (*   simpl in Hleb. *)
-  (*   congruence. *)
-  (*   intros w'' w'w'' k. *)
-  (*   unfold Kont in H. *)
-  (*   apply X_mon2 with false. *)
-  (*   apply H. *)
-  (*   eauto using wle_trans. *)
-  (*   intros w2 w''w2 HA. *)
-  (*   apply X_reset. *)
-  (*   apply k. *)
-  (*   assumption. *)
-  (*   apply sforces_mon2. *)
-  (*   assumption. *)
-  (*   reflexivity. *)
-  (*   assumption. *)
-  (* Defined. *)
-
-
   Lemma Kont_sforces_mon2' : 
     forall w annot A, 
       (forall w, sforces w false A -> sforces w true A) ->
