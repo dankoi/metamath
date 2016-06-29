@@ -1,0 +1,8 @@
+First run
+
+      coqc syntax.v semantics.v evaluate.v reify.v
+
+in order to compile the modules. Then open examples.v in CoqIDE or
+ProofGeneral in order to run/write examples.
+
+[Compiled with The Coq Proof Assistant, version 8.5 (January 2016)]
