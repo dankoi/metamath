@@ -5,6 +5,8 @@ This file defines two evaluators:
 - [eval], mapping the lambda calculus [ND] to its semantics
 - [evalb]/[evalc], mapping the compact calculus [HSb]/[HSc] to its semantics
 
+ Danko Ilik, 2016
+ 
  *)
 Require Export syntax.
 Require Export semantics.

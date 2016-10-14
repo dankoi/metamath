@@ -6,6 +6,12 @@ continuation monad over [sforces], and continuation monads over
 utility functions/lemmas defined for working with the semantics, and
 that are needed outside this file.
 
+Importantly, the functions [f2f] and [f2f'] are defined that allow to 
+switch back and forth between the continuation monads, whenever they 
+are instantiated by isomorphis types.
+
+ Danko Ilik, 2016
+ 
 *)
 Require Export syntax.
 

@@ -8,6 +8,8 @@ semantics.v:
 
 Then, the examples mentioned in the paper are implemented
 
+ Danko Ilik, 2016
+ 
  *)
 Require Export syntax.
 Require Export semantics.

@@ -1,0 +1,79 @@
+<html>
+  <head>
+<title>POPL2017 artifact evaluation page for The Exp-Log Normal Form of Types</title>
+</head>
+<body>
+<h1>POPL2017 artifact evaluation page for The Exp-Log Normal Form of Types</h1>
+
+<h2>Installation and use</h2>
+
+<p>Download the source code of the artifact here: <a href="explog-coq.zip">explog-coq.zip</a>.</p>
+
+<p>The artifact consists of the following modules:
+<dl>
+  <dt><i>syntax.v</i></dt>
+  <dd>defines inductive definitions of syntactic elements (types, type
+    normal form, typed lambda calculus, compact term calculus), as
+    well as fixpoints processing these elements and the necessary
+    correctness proofs of the fixpoints;</dd>
+  <dt><i>semantics.v</i></dt>
+  <dd>defines the type-theoretic continuation monad that is used as
+  the semantic domain for interpreting the term calculi
+  (in <i>evaluate.v</i>), as well as reifying from; the different
+  forcing functions can be used to instantiate the monad; various
+  necessary lemmas involving semantics are also proven here;
+  (in <i>reify.v</i>) </dd>
+  <dt><i>evaluate.v</i></dt>
+  <dd>contains two evaluators into the semantics, one from typed lambda
+  calculus, and one from the compact term calculus;</dd>
+  <dt><i>reify.v</i></dt>
+  <dd>contains two reifiers of semantic into the syntax, one into
+  typed lambda calculus, and one into the compact term calculus</dd>
+  <dt><i>examples.v</i></dt>
+  <dd>combines evaluation and reification into a normalization procedure and shows examples of the use of the abstract syntax; in particular, the examples of the paper are implemented, <tt>exampleN_*</tt> denoting Example~N.* from the paper.</dd>
+</dl>
+</p>
+
+<p>Any recent version of Coq should be able to type check the source
+code, for instance the Coq 8.5pl2 binary package from the Fedora 24
+standard repositories.</p>
+
+<p>In order to run the examples or examine the proof scripts interactively, you first need to compile the modules, <em>in the order in which they are listed above!</em></p>
+
+<p>This can be done by either loading the .v-files one by one into CoqIDE and then selecting Compile/Compile buffer in the menu bar, or by running the command line:
+<pre>
+      coqc syntax.v semantics.v evaluate.v reify.v
+</pre>
+</p>
+
+<h2>Claims about the artifact</h2>
+
+<p>The <em>syntactic</em> part of the artifact (<i>syntax.v</i>) is
+generic and rather definite: it could/should be used in any future
+implementation of the techniques of the paper. The correctness
+properties of the type normalization functions are satisfying as well
+as the inductive definition of the compact term calculus and of the
+exp-log normal form of types.</p>
+
+<p>The <em>semantic</em> part of the artifact (continuation monads,
+evaluator and reifier) are circumstantial: this is just one way to
+implement a term normalizer into the new compact term normal form. One
+could use another technique to normalize terms, such as an abstract
+machine. This semantic part of the artifact is a prototype, it is
+simply an implementation, and we do not make any additional claims
+about it in the paper.</p>
+
+<p>One difficulty that could come up when trying to write examples to
+normalize is to give an input term directly as a Coq-term. It may be
+easier to give an interactive Coq-proof rather than a Coq-term
+directly, by using <i>Proof. ... Defined.</i> and the <i>eapply</i>
+tactic on the terms constructors <i>lam</i>, <i>cas</i>,
+... <u>Warning:</u> Using <i>Qed</i> instead of <i>Defined</i> may
+block the normalization procedure!</p>
+
+
+<address>
+<a href="/">Danko Ilik's homepage</a>
+</address>
+</body>
+</html>

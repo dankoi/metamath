@@ -11,6 +11,8 @@ This file defines:
   with [enf], as well as various correctness properties of these
   fixpoints that will be used in other files
 
+ Danko Ilik, 2016
+ 
 *)
 
 Definition Proposition := nat.

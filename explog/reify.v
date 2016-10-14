@@ -5,6 +5,8 @@ This file defines two reifiers:
 - [sreify], mapping the semantics to the lambda calculus [ND]
 - [dreify]/[creify], mapping the semantics to the compact calculus [HSb]/[HSc]
 
+ Danko Ilik, 2016
+ 
  *)
 Require Export syntax.
 Require Export semantics.
