@@ -554,6 +554,9 @@ Section SequentCalculi.
   | LJ_impl_left_disj : forall Gamma F G H I,
       LJ (impl (conj (conj (impl F H) (impl G H)) Gamma) I) ->
       LJ (impl (conj (impl (disj F G) H) Gamma) I)
+  | LJ_conj_left : forall Gamma F G H,
+      LJ (impl (impl G (impl F Gamma)) H) ->
+      LJ (impl (impl (conj F G) Gamma) H)
   .
 
   (** `High-school' sequent calculus *)
@@ -602,5 +605,6 @@ Section LJtoHS.
     - rewrite <- explogn_distribn_nplus; assumption.
     - rewrite explogn_distrib; assumption.
     - rewrite explogn_nplus; assumption.
+    - rewrite explogn_distrib; assumption.
   Defined.
 End LJtoHS.
