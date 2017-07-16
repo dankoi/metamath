@@ -555,8 +555,8 @@ Section SequentCalculi.
       LJ (impl (conj (conj (impl F H) (impl G H)) Gamma) I) ->
       LJ (impl (conj (impl (disj F G) H) Gamma) I)
   | LJ_conj_left : forall Gamma F G H,
-      LJ (impl (impl G (impl F Gamma)) H) ->
-      LJ (impl (impl (conj F G) Gamma) H)
+      LJ (impl (conj F (conj G Gamma)) H) ->
+      LJ (impl (conj (conj F G) Gamma) H)
   .
 
   (** `High-school' sequent calculus *)
