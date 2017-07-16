@@ -31,73 +31,73 @@ Inductive ENF : Set :=
 
 Section FormulaNormalization.
 
-  Fixpoint nplus1 (d : DNF)(e2 : ENF) {struct d} : DNF :=
-    match d with
-    | two c c0 => match e2 with
-                  | cnf c1 => dis c (two c0 c1)
-                  | dnf d0 => dis c (dis c0 d0)
+  Fixpoint nplus1 (d1 : DNF)(e2 : ENF) {struct d1} : DNF :=
+    match d1 with
+    | two c11 c12 => match e2 with
+                  | cnf c2 => dis c11 (two c12 c2)
+                  | dnf d2 => dis c11 (dis c12 d2)
                   end
-    | dis c d0 => dis c (nplus1 d0 e2)
+    | dis c11 d12 => dis c11 (nplus1 d12 e2)
     end.
     
   Definition nplus (e1 e2 : ENF) : DNF :=
     match e1 with
-    | cnf a => match e2 with
-               | cnf c => two a c
-               | dnf d => dis a d
-               end
-    | dnf b => nplus1 b e2
+    | cnf c1 => match e2 with
+                | cnf c2 => two c1 c2
+                | dnf d2 => dis c1 d2
+                end
+    | dnf d1 => nplus1 d1 e2
     end.
 
   Fixpoint ntimes (c1 c2 : CNF) {struct c1} : CNF :=
     match c1 with
     | top => c2
-    | con c10 d c13 => con c10 d (ntimes c13 c2)
+    | con c11 b c12 => con c11 b (ntimes c12 c2)
     end.
 
-  Fixpoint distrib0 (c : CNF)(d : DNF) : ENF :=
-    match d with
-    | two c0 c1 => dnf (two (ntimes c c0) (ntimes c c1))
-    | dis c0 d0 => dnf match distrib0 c d0 with
-                       | cnf c1 => two (ntimes c c0) c1
-                       | dnf d1 => dis (ntimes c c0) d1
+  Fixpoint distrib0 (c1 : CNF)(d2 : DNF) : ENF :=
+    match d2 with
+    | two c21 c22 => dnf (two (ntimes c1 c21) (ntimes c1 c22))
+    | dis c21 d22 => dnf match distrib0 c1 d22 with
+                       | cnf c22' => two (ntimes c1 c21) c22'
+                       | dnf d22' => dis (ntimes c1 c21) d22'
                        end
     end.
   
-  Definition distrib1 (c : CNF)(e : ENF) : ENF :=
-    match e with
-    | cnf a => cnf (ntimes c a)
-    | dnf b => distrib0 c b
+  Definition distrib1 (c1 : CNF)(e2 : ENF) : ENF :=
+    match e2 with
+    | cnf c2 => cnf (ntimes c1 c2)
+    | dnf d2 => distrib0 c1 d2
     end.
 
-  Fixpoint explog0 (d : Base)(d2 : DNF) {struct d2} : CNF :=
-    match d2 with
-    | two c1 c2 => ntimes (con c1 d top) (con c2 d top)
-    | dis c d3 => ntimes (con c d top) (explog0 d d3)
+  Fixpoint explog0 (b : Base)(d : DNF) {struct d} : CNF :=
+    match d with
+    | two c1 c2 => ntimes (con c1 b top) (con c2 b top)
+    | dis c1 d2 => ntimes (con c1 b top) (explog0 b d2)
     end.
   
-  Definition explog1 (d : Base)(e : ENF) : CNF :=
-    match e with
-    | cnf c => con c d top
-    | dnf d1 => explog0 d d1
+  Definition explog1 (b : Base)(e2 : ENF) : CNF :=
+    match e2 with
+    | cnf c2 => con c2 b top
+    | dnf d2 => explog0 b d2
     end.
 
-  Fixpoint distribn (d : DNF)(e2 : ENF) {struct d} : ENF :=
-    match d with
-    | two c c0 => dnf (nplus (distrib1 c e2) (distrib1 c0 e2))
-    | dis c d0 => dnf (nplus (distrib1 c e2) (distribn d0 e2))
+  Fixpoint distribn (d1 : DNF)(e2 : ENF) {struct d1} : ENF :=
+    match d1 with
+    | two c11 c12 => dnf (nplus (distrib1 c11 e2) (distrib1 c12 e2))
+    | dis c11 d12 => dnf (nplus (distrib1 c11 e2) (distribn d12 e2))
     end.
   
   Definition distrib (e1 e2 : ENF) : ENF :=
     match e1 with
-    | cnf a => distrib1 a e2
-    | dnf b => distribn b e2
+    | cnf c1 => distrib1 c1 e2
+    | dnf d1 => distribn d1 e2
     end.
 
-  Fixpoint explogn (c:CNF)(e2:ENF) {struct c} : CNF :=
-    match c with
+  Fixpoint explogn (c1:CNF)(e2:ENF) {struct c1} : CNF :=
+    match c1 with
     | top => top
-    | con c1 d c2 => ntimes (explog1 d (distrib1 c1 e2)) (explogn c2 e2)
+    | con c11 b c12 => ntimes (explog1 b (distrib1 c11 e2)) (explogn c12 e2)
     end.
 
   Definition p2c : Proposition -> CNF :=
@@ -605,6 +605,6 @@ Section LJtoHS.
     - rewrite <- explogn_distribn_nplus; assumption.
     - rewrite explogn_distrib; assumption.
     - rewrite explogn_nplus; assumption.
-    - rewrite explogn_distrib; assumption.
+    - rewrite <- distrib_assoc; assumption.
   Defined.
 End LJtoHS.
